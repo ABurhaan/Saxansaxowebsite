@@ -1,32 +1,37 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Sparkles, Github, Twitter, Linkedin, Mail, Zap } from 'lucide-react'
+import { Sparkles, Github, Twitter, Linkedin, Mail, Zap, ArrowUp } from 'lucide-react'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   const socialLinks = [
-    { icon: Github, href: '#', label: 'GitHub', color: 'hover:text-gray-300' },
-    { icon: Twitter, href: '#', label: 'Twitter', color: 'hover:text-white' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn', color: 'hover:text-glass-accent' },
-    { icon: Mail, href: '#', label: 'Email', color: 'hover:text-white' },
+    { icon: Github, href: '#', label: 'GitHub', gradient: 'from-gray-400 to-gray-600' },
+    { icon: Twitter, href: '#', label: 'Twitter', gradient: 'from-blue-500 to-blue-600' },
+    { icon: Linkedin, href: '#', label: 'LinkedIn', gradient: 'from-blue-600 to-blue-500' },
+    { icon: Mail, href: '#', label: 'Email', gradient: 'from-blue-500 to-blue-400' },
   ]
 
   const quickLinks = ['Home', 'Services', 'About', 'Team', 'Jobs', 'Contact']
   const services = ['Web Development', 'Cloud Solutions', 'Mobile Apps', 'AI & ML']
 
   return (
-    <footer className="relative bg-gradient-to-b from-transparent via-slate-900/50 to-slate-900 border-t border-white/10 py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Background Effects */}
+    <footer className="relative bg-gradient-to-b from-transparent via-gray-50 to-white border-t border-gray-200 py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      {/* Enhanced Background Effects */}
       <div className="absolute inset-0">
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-glass-accent/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/3 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-500/3 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-500/3 rounded-full blur-3xl" />
       </div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative z-20">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-          {/* Brand */}
+          {/* Enhanced Brand */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -34,20 +39,22 @@ export default function Footer() {
             transition={{ duration: 0.6 }}
           >
             <motion.div
-              whileHover={{ scale: 1.1, rotate: 5 }}
+              whileHover={{ scale: 1.1 }}
               className="flex items-center space-x-3 mb-6"
             >
               <motion.div
                 animate={{ rotate: [0, 360] }}
                 transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                className="relative"
               >
-                <Sparkles className="w-10 h-10 text-transparent bg-gradient-to-r from-white via-glass-accent to-glass-purple bg-clip-text" />
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-500 rounded-full blur-xl opacity-50" />
+                <Sparkles className="w-10 h-10 text-blue-600 relative z-10" />
               </motion.div>
               <span className="text-3xl font-orbitron font-bold gradient-text">
                 Saxansaxo
               </span>
             </motion.div>
-            <p className="text-gray-400 font-space-grotesk leading-relaxed">
+            <p className="text-gray-600 font-space-grotesk leading-relaxed">
               Transforming businesses with innovative technology solutions and digital magic.
             </p>
           </motion.div>
@@ -59,7 +66,7 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <h3 className="text-white font-orbitron font-bold mb-6 text-lg">Quick Links</h3>
+            <h3 className="text-gray-900 font-orbitron font-bold mb-6 text-lg">Quick Links</h3>
             <ul className="space-y-3">
               {quickLinks.map((link, index) => (
                 <motion.li
@@ -72,9 +79,9 @@ export default function Footer() {
                 >
                   <a
                     href={`#${link.toLowerCase()}`}
-                    className="text-gray-400 hover:text-white transition-colors font-space-grotesk flex items-center gap-2 group"
+                    className="text-gray-600 hover:text-blue-600 transition-colors font-space-grotesk flex items-center gap-2 group"
                   >
-                    <span className="w-0 h-0.5 bg-white group-hover:w-4 transition-all" />
+                    <span className="w-0 h-0.5 bg-gradient-to-r from-blue-600 to-blue-500 group-hover:w-4 transition-all" />
                     {link}
                   </a>
                 </motion.li>
@@ -89,7 +96,7 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h3 className="text-white font-orbitron font-bold mb-6 text-lg">Services</h3>
+            <h3 className="text-gray-900 font-orbitron font-bold mb-6 text-lg">Services</h3>
             <ul className="space-y-3">
               {services.map((service, index) => (
                 <motion.li
@@ -102,9 +109,9 @@ export default function Footer() {
                 >
                   <a
                     href="#services"
-                    className="text-gray-400 hover:text-glass-accent transition-colors font-space-grotesk flex items-center gap-2 group"
+                    className="text-gray-600 hover:text-blue-600 transition-colors font-space-grotesk flex items-center gap-2 group"
                   >
-                    <span className="w-0 h-0.5 bg-glass-accent group-hover:w-4 transition-all" />
+                    <span className="w-0 h-0.5 bg-gradient-to-r from-blue-600 to-blue-500 group-hover:w-4 transition-all" />
                     {service}
                   </a>
                 </motion.li>
@@ -112,14 +119,14 @@ export default function Footer() {
             </ul>
           </motion.div>
 
-          {/* Social */}
+          {/* Enhanced Social */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <h3 className="text-white font-orbitron font-bold mb-6 text-lg">Follow Us</h3>
+            <h3 className="text-gray-900 font-orbitron font-bold mb-6 text-lg">Follow Us</h3>
             <div className="flex space-x-4">
               {socialLinks.map((social, index) => (
                 <motion.a
@@ -131,41 +138,44 @@ export default function Footer() {
                   transition={{ delay: 0.3 + index * 0.1, type: 'spring' }}
                   whileHover={{ scale: 1.2, rotate: 5, y: -5 }}
                   whileTap={{ scale: 0.9 }}
-                  className={`w-12 h-12 rounded-xl glass border border-white/10 flex items-center justify-center text-gray-400 ${social.color} transition-all group relative overflow-hidden`}
+                  className={`w-12 h-12 rounded-xl glass border border-gray-200 flex items-center justify-center text-gray-600 hover:border-blue-500/50 transition-all group relative overflow-hidden`}
                   aria-label={social.label}
                 >
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-white/20 to-glass-accent/20 opacity-0 group-hover:opacity-100 transition-opacity"
-                    animate={{
-                      x: ['-100%', '100%'],
-                    }}
-                    transition={{
-                      duration: 0.6,
-                      repeat: Infinity,
-                      repeatDelay: 2,
-                    }}
+                    className={`absolute inset-0 bg-gradient-to-r ${social.gradient} opacity-0 group-hover:opacity-100 transition-opacity`}
                   />
-                  <social.icon className="w-5 h-5 relative z-10" />
+                  <social.icon className="w-5 h-5 relative z-10 group-hover:text-gray-900 transition-colors" />
                 </motion.a>
               ))}
             </div>
           </motion.div>
         </div>
 
-        {/* Bottom Bar */}
+        {/* Enhanced Bottom Bar */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4"
+          className="border-t border-gray-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4"
         >
-          <p className="text-gray-400 font-space-grotesk text-center md:text-left">
+          <p className="text-gray-600 font-space-grotesk text-center md:text-left">
             © {currentYear} <span className="gradient-text font-orbitron">Saxansaxo Technology</span>. All rights reserved.
           </p>
-          <div className="flex items-center gap-2 text-gray-400 font-jetbrains text-sm">
-            <Zap className="w-4 h-4 text-white" />
-            <span>Made with magic</span>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 text-gray-600 font-jetbrains text-sm">
+              <Zap className="w-4 h-4 text-blue-600" />
+              <span>Made with magic</span>
+            </div>
+            <motion.button
+              onClick={scrollToTop}
+              whileHover={{ scale: 1.1, y: -5 }}
+              whileTap={{ scale: 0.9 }}
+              className="w-10 h-10 rounded-full glass border border-gray-200 flex items-center justify-center text-gray-900 hover:border-blue-500/50 hover:bg-blue-500/20 transition-all"
+              aria-label="Scroll to top"
+            >
+              <ArrowUp className="w-5 h-5" />
+            </motion.button>
           </div>
         </motion.div>
       </div>

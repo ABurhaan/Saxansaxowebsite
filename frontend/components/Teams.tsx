@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { Linkedin, Twitter, Github, Mail, Users } from 'lucide-react'
+import { Linkedin, Twitter, Github, Mail, Users, Sparkles } from 'lucide-react'
 import { api } from '@/lib/auth'
 
 interface TeamMember {
@@ -44,7 +44,7 @@ export default function Teams() {
     return (
       <section id="teams" className="relative py-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
-          <div className="text-white">Loading team...</div>
+          <div className="text-gray-900">Loading team...</div>
         </div>
       </section>
     )
@@ -53,11 +53,12 @@ export default function Teams() {
   return (
     <section id="teams" className="relative py-32 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="absolute inset-0">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-glass-accent/5 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/3 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/3 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/3 rounded-full blur-3xl" />
       </div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative z-20">
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 50 }}
@@ -71,21 +72,26 @@ export default function Teams() {
             transition={{ delay: 0.2, type: 'spring' }}
             className="inline-block mb-4"
           >
-            <span className="text-white/70 font-jetbrains text-sm uppercase tracking-wider">Our Team</span>
+            <span className="text-blue-600 font-jetbrains text-sm uppercase tracking-wider px-4 py-2 rounded-full glass border border-blue-200">
+              Our Team
+            </span>
           </motion.span>
-          <h2 className="text-5xl md:text-7xl font-orbitron font-black mb-6">
+          <h2 className="text-6xl md:text-7xl lg:text-8xl font-orbitron font-black mb-6">
             <span className="gradient-text">Meet the</span>{' '}
-            <span className="text-white">Masters</span>
+            <span className="text-gray-900">Visionaries</span>
           </h2>
-          <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto font-space-grotesk">
-            The brilliant minds behind our innovative solutions
+          <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto font-space-grotesk leading-relaxed mb-4">
+            Our team combines decades of experience from leading tech companies with fresh perspectives and innovative thinking
+          </p>
+          <p className="text-lg text-gray-500 max-w-3xl mx-auto font-space-grotesk">
+            From former Google engineers to award-winning designers, we've assembled a world-class team dedicated to excellence
           </p>
         </motion.div>
 
         {teamMembers.length === 0 ? (
           <div className="text-center py-20">
-            <Users className="w-20 h-20 text-white/20 mx-auto mb-4" />
-            <p className="text-gray-400 font-space-grotesk">No team members to display yet.</p>
+            <Users className="w-20 h-20 text-gray-900/20 mx-auto mb-4" />
+            <p className="text-gray-600 font-space-grotesk">No team members to display yet.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -98,57 +104,72 @@ export default function Teams() {
                 whileHover={{ y: -10, scale: 1.02 }}
                 className="group relative"
               >
-                <div className="absolute -inset-1 bg-gradient-to-r opacity-0 group-hover:opacity-50 blur-xl transition-opacity duration-500 rounded-3xl" style={{
-                  backgroundImage: `linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(224, 231, 255, 0.1))`,
-                }} />
-                <div className="relative glass-strong p-8 rounded-3xl border border-white/10 text-center">
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 opacity-0 group-hover:opacity-50 blur-xl transition-opacity duration-500 rounded-3xl" />
+                <div className="relative glass-strong p-8 rounded-3xl border border-gray-200 text-center group-hover:border-white/30 transition-all overflow-hidden">
+                  {/* Animated background */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-blue-400/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity"
+                    animate={{
+                      backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
+                    }}
+                    transition={{
+                      duration: 8,
+                      repeat: Infinity,
+                      ease: 'linear',
+                    }}
+                    style={{
+                      backgroundSize: '200% 200%',
+                    }}
+                  />
+
                   <div className="relative mb-6">
                     <motion.div
-                      className="w-32 h-32 mx-auto rounded-full bg-gradient-to-r from-white/20 to-glass-accent/20 flex items-center justify-center overflow-hidden"
-                      whileHover={{ scale: 1.1 }}
+                      className="w-32 h-32 mx-auto rounded-full bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 p-1 flex items-center justify-center overflow-hidden shadow-lg"
+                      whileHover={{ scale: 1.1, rotate: 5 }}
                     >
-                      {member.image_url ? (
-                        <img
-                          src={member.image_url}
-                          alt={member.name}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <Users className="w-16 h-16 text-white/50" />
-                      )}
+                      <div className="w-full h-full rounded-full glass-strong border-2 border-white/20 flex items-center justify-center overflow-hidden">
+                        {member.image_url ? (
+                          <img
+                            src={member.image_url}
+                            alt={member.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <Users className="w-16 h-16 text-gray-900/50" />
+                        )}
+                      </div>
                     </motion.div>
                     <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-full"
+                      className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-blue-400/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity"
                       animate={{
-                        rotate: [0, 360],
+                        scale: [1, 1.2, 1],
                       }}
                       transition={{
-                        duration: 20,
+                        duration: 2,
                         repeat: Infinity,
-                        ease: 'linear',
                       }}
                     />
                   </div>
-                  <h3 className="text-2xl font-orbitron font-bold text-white mb-2">
+                  <h3 className="text-2xl font-orbitron font-bold text-gray-900 mb-2 relative z-10">
                     {member.name}
                   </h3>
-                  <p className="text-glass-accent font-space-grotesk font-medium mb-4">
+                  <p className="text-blue-600 font-space-grotesk font-medium mb-4 relative z-10">
                     {member.position}
                   </p>
                   {member.bio && (
-                    <p className="text-gray-400 font-space-grotesk text-sm mb-6 leading-relaxed">
+                    <p className="text-gray-600 font-space-grotesk text-sm mb-6 leading-relaxed relative z-10">
                       {member.bio}
                     </p>
                   )}
-                  <div className="flex justify-center gap-4">
+                  <div className="flex justify-center gap-4 relative z-10">
                     {member.email && (
                       <motion.a
                         href={`mailto:${member.email}`}
-                        whileHover={{ scale: 1.2, rotate: 5 }}
+                        whileHover={{ scale: 1.2, rotate: 5, y: -5 }}
                         whileTap={{ scale: 0.9 }}
-                        className="w-10 h-10 rounded-lg glass border border-white/10 flex items-center justify-center text-white hover:border-white/50 transition-all"
+                        className="w-12 h-12 rounded-xl glass border border-gray-200 flex items-center justify-center text-gray-900 hover:border-blue-500/50 hover:bg-blue-500/20 transition-all group"
                       >
-                        <Mail className="w-5 h-5" />
+                        <Mail className="w-5 h-5 group-hover:scale-110 transition-transform" />
                       </motion.a>
                     )}
                     {member.linkedin && (
@@ -156,11 +177,11 @@ export default function Teams() {
                         href={member.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        whileHover={{ scale: 1.2, rotate: 5 }}
+                        whileHover={{ scale: 1.2, rotate: 5, y: -5 }}
                         whileTap={{ scale: 0.9 }}
-                        className="w-10 h-10 rounded-lg glass border border-white/10 flex items-center justify-center text-white hover:border-white/50 transition-all"
+                        className="w-12 h-12 rounded-xl glass border border-gray-200 flex items-center justify-center text-gray-900 hover:border-blue-500/50 hover:bg-blue-500/20 transition-all group"
                       >
-                        <Linkedin className="w-5 h-5" />
+                        <Linkedin className="w-5 h-5 group-hover:scale-110 transition-transform" />
                       </motion.a>
                     )}
                     {member.twitter && (
@@ -168,11 +189,11 @@ export default function Teams() {
                         href={member.twitter}
                         target="_blank"
                         rel="noopener noreferrer"
-                        whileHover={{ scale: 1.2, rotate: 5 }}
+                        whileHover={{ scale: 1.2, rotate: 5, y: -5 }}
                         whileTap={{ scale: 0.9 }}
-                        className="w-10 h-10 rounded-lg glass border border-white/10 flex items-center justify-center text-white hover:border-white/50 transition-all"
+                        className="w-12 h-12 rounded-xl glass border border-gray-200 flex items-center justify-center text-gray-900 hover:border-blue-500/50 hover:bg-blue-500/20 transition-all group"
                       >
-                        <Twitter className="w-5 h-5" />
+                        <Twitter className="w-5 h-5 group-hover:scale-110 transition-transform" />
                       </motion.a>
                     )}
                     {member.github && (
@@ -180,11 +201,11 @@ export default function Teams() {
                         href={member.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        whileHover={{ scale: 1.2, rotate: 5 }}
+                        whileHover={{ scale: 1.2, rotate: 5, y: -5 }}
                         whileTap={{ scale: 0.9 }}
-                        className="w-10 h-10 rounded-lg glass border border-white/10 flex items-center justify-center text-white hover:border-white/50 transition-all"
+                        className="w-12 h-12 rounded-xl glass border border-gray-200 flex items-center justify-center text-gray-900 hover:border-blue-500/50 hover:bg-blue-500/20 transition-all group"
                       >
-                        <Github className="w-5 h-5" />
+                        <Github className="w-5 h-5 group-hover:scale-110 transition-transform" />
                       </motion.a>
                     )}
                   </div>
@@ -197,4 +218,3 @@ export default function Teams() {
     </section>
   )
 }
-

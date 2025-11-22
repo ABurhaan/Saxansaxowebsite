@@ -25,7 +25,7 @@ export default function ParticleSystem() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    const colors = ['#ffffff', '#e0e7ff', '#a5b4fc', '#c4b5fd', '#f0abfc']
+    const colors = ['#2563EB', '#3B82F6', '#60A5FA', '#1E40AF', '#2563EB']
     
     const resizeCanvas = () => {
       canvas.width = window.innerWidth
@@ -41,15 +41,15 @@ export default function ParticleSystem() {
         y: Math.random() * canvas.height,
         vx: (Math.random() - 0.5) * 0.5,
         vy: (Math.random() - 0.5) * 0.5,
-        size: Math.random() * 3 + 1,
+        size: Math.random() * 2 + 1,
         color: colors[Math.floor(Math.random() * colors.length)],
         life: 0,
         maxLife: Math.random() * 200 + 100,
       }
     }
 
-    // Initialize particles
-    for (let i = 0; i < 100; i++) {
+    // Initialize particles - reduced count for subtlety
+    for (let i = 0; i < 80; i++) {
       particlesRef.current.push(createParticle())
     }
 
@@ -73,11 +73,11 @@ export default function ParticleSystem() {
           particlesRef.current[index] = createParticle()
         }
 
-        // Draw particle with glow
+        // Draw particle with subtle glow - reduced for better content visibility
         const opacity = Math.sin((particle.life / particle.maxLife) * Math.PI)
         ctx.save()
-        ctx.globalAlpha = opacity * 0.8
-        ctx.shadowBlur = 15
+        ctx.globalAlpha = opacity * 0.25
+        ctx.shadowBlur = 10
         ctx.shadowColor = particle.color
         ctx.fillStyle = particle.color
         ctx.beginPath()
@@ -94,9 +94,18 @@ export default function ParticleSystem() {
           const distance = Math.sqrt(dx * dx + dy * dy)
 
           if (distance < 150) {
-            const opacity = (1 - distance / 150) * 0.15
-            ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`
-            ctx.lineWidth = 1
+            const opacity = (1 - distance / 150) * 0.08
+            // Use colored connections instead of white
+            const colorMap: Record<string, string> = {
+              '#2563EB': `rgba(37, 99, 235, ${opacity})`,
+              '#3B82F6': `rgba(59, 130, 246, ${opacity})`,
+              '#60A5FA': `rgba(96, 165, 250, ${opacity})`,
+              '#1E40AF': `rgba(30, 64, 175, ${opacity})`,
+            }
+            // Use the color of the first particle or blend
+            const connectionColor = colorMap[particle.color] || `rgba(37, 99, 235, ${opacity})`
+            ctx.strokeStyle = connectionColor
+            ctx.lineWidth = 1.5
             ctx.beginPath()
             ctx.moveTo(particle.x, particle.y)
             ctx.lineTo(otherParticle.x, otherParticle.y)
@@ -122,7 +131,6 @@ export default function ParticleSystem() {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-0"
-      style={{ mixBlendMode: 'screen' }}
     />
   )
 }

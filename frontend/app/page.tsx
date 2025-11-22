@@ -21,7 +21,7 @@ export default function Home() {
   if (!mounted) return null
 
   return (
-    <main className="min-h-screen relative bg-dark-bg overflow-hidden">
+    <main className="min-h-screen relative bg-white overflow-hidden">
       <ParticleSystem />
       <Navbar />
       <Hero />

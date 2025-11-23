@@ -7,6 +7,9 @@ import { useAuth } from '@/contexts/AuthContext'
 import { api } from '@/lib/auth'
 import { User, Mail, Phone, FileText, Upload, Save, ArrowLeft, Briefcase } from 'lucide-react'
 import Link from 'next/link'
+import Navbar from '@/components/Navbar'
+import ParticleSystem from '@/components/ParticleSystem'
+import MorphingBlob from '@/components/MorphingBlob'
 
 export default function ProfilePage() {
   const router = useRouter()
@@ -34,6 +37,7 @@ export default function ProfilePage() {
       fetchProfile()
       fetchApplications()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated])
 
   const fetchProfile = async () => {
@@ -120,8 +124,8 @@ export default function ProfilePage() {
 
   if (loading || isLoading) {
     return (
-      <div className="min-h-screen bg-dark-bg flex items-center justify-center">
-        <div className="text-white">Loading...</div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-gray-900">Loading...</div>
       </div>
     )
   }
@@ -131,67 +135,80 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-dark-bg pt-24 pb-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-white/70 hover:text-white mb-6 font-space-grotesk"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Home
-        </Link>
+    <div className="min-h-screen bg-white relative overflow-hidden">
+      <Navbar />
+      <ParticleSystem />
+      
+      {/* Background Effects */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <MorphingBlob className="top-10 left-10" size={500} />
+        <MorphingBlob className="bottom-10 right-10" size={600} />
+        <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
+      </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="glass-strong p-8 rounded-3xl border border-white/20 mb-8"
-        >
-          <div className="flex items-center gap-4 mb-8">
-            <div className="w-20 h-20 rounded-full bg-gradient-to-r from-white/20 to-glass-accent/20 flex items-center justify-center overflow-hidden">
-              {profile?.avatar_url ? (
-                <img src={profile.avatar_url} alt={user?.username} className="w-full h-full object-cover" />
-              ) : (
-                <User className="w-10 h-10 text-white/50" />
-              )}
+      <div className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-4xl mx-auto">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 font-space-grotesk transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Home
+          </Link>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="glass-strong p-8 rounded-3xl border border-gray-200 shadow-xl mb-8"
+          >
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-20 h-20 rounded-full bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 flex items-center justify-center overflow-hidden relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 rounded-full blur-lg opacity-50" />
+                {profile?.avatar_url ? (
+                  <img src={profile.avatar_url} alt={user?.username} className="w-full h-full object-cover relative z-10" />
+                ) : (
+                  <User className="w-10 h-10 text-white relative z-10" />
+                )}
+              </div>
+              <div>
+                <h1 className="text-3xl font-orbitron font-bold gradient-text">
+                  {user?.first_name && user?.last_name
+                    ? `${user.first_name} ${user.last_name}`
+                    : user?.username}
+                </h1>
+                <p className="text-blue-600 font-space-grotesk">@{user?.username}</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-3xl font-orbitron font-bold text-white">
-                {user?.first_name && user?.last_name
-                  ? `${user.first_name} ${user.last_name}`
-                  : user?.username}
-              </h1>
-              <p className="text-glass-accent font-space-grotesk">@{user?.username}</p>
-            </div>
-          </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   Email
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                   <input
                     type="email"
                     value={user?.email || ''}
                     disabled
-                    className="w-full pl-12 pr-4 py-3 glass border border-white/10 rounded-xl text-gray-400 font-space-grotesk cursor-not-allowed"
+                    className="w-full pl-12 pr-4 py-3 glass border border-gray-200 rounded-xl text-gray-500 font-space-grotesk cursor-not-allowed bg-gray-50"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   Phone
                 </label>
                 <div className="relative">
-                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
+                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                   <input
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full pl-12 pr-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                    className="w-full pl-12 pr-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                     placeholder="+1 (555) 123-4567"
                   />
                 </div>
@@ -199,29 +216,29 @@ export default function ProfilePage() {
             </div>
 
             <div>
-              <label className="block text-white font-space-grotesk font-semibold mb-2">
+              <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                 Bio
               </label>
               <textarea
                 value={formData.bio}
                 onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                 rows={4}
-                className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all resize-none font-space-grotesk"
+                className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all resize-none font-space-grotesk"
                 placeholder="Tell us about yourself..."
               />
             </div>
 
             <div>
-              <label className="block text-white font-space-grotesk font-semibold mb-2">
+              <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                 Avatar
               </label>
-              <label className="flex items-center gap-4 p-6 glass border border-white/10 rounded-xl cursor-pointer hover:border-white/50 transition-all">
-                <Upload className="w-6 h-6 text-white" />
+              <label className="flex items-center gap-4 p-6 glass border border-gray-200 rounded-xl cursor-pointer hover:border-blue-500/50 transition-all">
+                <Upload className="w-6 h-6 text-blue-600" />
                 <div className="flex-1">
                   {avatar ? (
-                    <span className="text-white font-space-grotesk">{avatar.name}</span>
+                    <span className="text-gray-900 font-space-grotesk">{avatar.name}</span>
                   ) : (
-                    <span className="text-gray-400 font-space-grotesk">
+                    <span className="text-gray-600 font-space-grotesk">
                       {profile?.avatar_url ? 'Change avatar' : 'Upload avatar'}
                     </span>
                   )}
@@ -236,16 +253,16 @@ export default function ProfilePage() {
             </div>
 
             <div>
-              <label className="block text-white font-space-grotesk font-semibold mb-2">
+              <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                 Resume
               </label>
-              <label className="flex items-center gap-4 p-6 glass border border-white/10 rounded-xl cursor-pointer hover:border-white/50 transition-all">
-                <FileText className="w-6 h-6 text-white" />
+              <label className="flex items-center gap-4 p-6 glass border border-gray-200 rounded-xl cursor-pointer hover:border-blue-500/50 transition-all">
+                <FileText className="w-6 h-6 text-blue-600" />
                 <div className="flex-1">
                   {resume ? (
-                    <span className="text-white font-space-grotesk">{resume.name}</span>
+                    <span className="text-gray-900 font-space-grotesk">{resume.name}</span>
                   ) : (
-                    <span className="text-gray-400 font-space-grotesk">
+                    <span className="text-gray-600 font-space-grotesk">
                       {profile?.resume_url ? 'Change resume' : 'Upload resume (PDF, DOC, DOCX)'}
                     </span>
                   )}
@@ -260,26 +277,44 @@ export default function ProfilePage() {
             </div>
 
             {message && (
-              <div
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
                 className={`p-4 rounded-xl border font-space-grotesk ${
                   message.type === 'success'
-                    ? 'bg-green-500/20 border-green-500/50 text-green-400'
-                    : 'bg-red-500/20 border-red-500/50 text-red-400'
+                    ? 'bg-green-500/10 border-green-500/30 text-green-600'
+                    : 'bg-red-500/10 border-red-500/30 text-red-600'
                 }`}
               >
                 {message.text}
-              </div>
+              </motion.div>
             )}
 
             <motion.button
               type="submit"
               disabled={isSaving}
-              whileHover={{ scale: isSaving ? 1 : 1.02 }}
+              whileHover={{ scale: isSaving ? 1 : 1.02, y: -2 }}
               whileTap={{ scale: isSaving ? 1 : 0.98 }}
-              className="w-full px-6 py-4 rounded-xl glass border border-white/20 text-white font-space-grotesk font-bold text-lg flex items-center justify-center gap-2 hover:border-white/50 transition-all disabled:opacity-50"
+              className="w-full relative px-6 py-4 rounded-xl font-space-grotesk font-bold text-lg overflow-hidden group disabled:opacity-50"
             >
-              <Save className="w-5 h-5" />
-              {isSaving ? 'Saving...' : 'Save Profile'}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400"
+                animate={{
+                  backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: 'linear',
+                }}
+                style={{
+                  backgroundSize: '200% 200%',
+                }}
+              />
+              <span className="relative z-10 text-white flex items-center justify-center gap-2">
+                <Save className="w-5 h-5" />
+                {isSaving ? 'Saving...' : 'Save Profile'}
+              </span>
             </motion.button>
           </form>
         </motion.div>
@@ -289,33 +324,33 @@ export default function ProfilePage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass-strong p-8 rounded-3xl border border-white/20"
+            className="glass-strong p-8 rounded-3xl border border-gray-200 shadow-xl"
           >
-            <h2 className="text-2xl font-orbitron font-bold text-white mb-6 flex items-center gap-3">
-              <Briefcase className="w-6 h-6" />
+            <h2 className="text-2xl font-orbitron font-bold gradient-text mb-6 flex items-center gap-3">
+              <Briefcase className="w-6 h-6 text-blue-600" />
               My Job Applications
             </h2>
             <div className="space-y-4">
               {applications.map((app: any) => (
                 <div
                   key={app.id}
-                  className="glass p-6 rounded-2xl border border-white/10"
+                  className="glass p-6 rounded-2xl border border-gray-200 hover:border-blue-500/50 transition-all"
                 >
                   <div className="flex justify-between items-start">
                     <div>
-                      <h3 className="text-xl font-orbitron font-bold text-white mb-2">
+                      <h3 className="text-xl font-orbitron font-bold text-gray-900 mb-2">
                         {app.job_title}
                       </h3>
-                      <p className="text-gray-400 font-space-grotesk text-sm mb-2">
+                      <p className="text-gray-600 font-space-grotesk text-sm mb-2">
                         Applied on {new Date(app.applied_date).toLocaleDateString()}
                       </p>
                       <span
                         className={`inline-block px-3 py-1 rounded-lg text-xs font-space-grotesk font-semibold ${
                           app.status === 'accepted'
-                            ? 'bg-green-500/20 text-green-400'
+                            ? 'bg-green-500/10 text-green-600 border border-green-500/30'
                             : app.status === 'rejected'
-                            ? 'bg-red-500/20 text-red-400'
-                            : 'bg-yellow-500/20 text-yellow-400'
+                            ? 'bg-red-500/10 text-red-600 border border-red-500/30'
+                            : 'bg-yellow-500/10 text-yellow-600 border border-yellow-500/30'
                         }`}
                       >
                         {app.status.charAt(0).toUpperCase() + app.status.slice(1)}
@@ -327,6 +362,7 @@ export default function ProfilePage() {
             </div>
           </motion.div>
         )}
+        </div>
       </div>
     </div>
   )

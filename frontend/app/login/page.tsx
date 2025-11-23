@@ -3,9 +3,12 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { LogIn, Mail, Lock, ArrowLeft } from 'lucide-react'
+import { LogIn, Mail, Lock, ArrowLeft, Sparkles } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
 import Link from 'next/link'
+import Navbar from '@/components/Navbar'
+import ParticleSystem from '@/components/ParticleSystem'
+import MorphingBlob from '@/components/MorphingBlob'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -33,96 +36,144 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-dark-bg flex items-center justify-center p-4 relative overflow-hidden">
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-glass-accent/5 rounded-full blur-3xl" />
+    <div className="min-h-screen bg-white relative overflow-hidden">
+      <ParticleSystem />
+      <Navbar />
+      
+      {/* Background Effects */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <MorphingBlob className="top-10 left-10" size={500} />
+        <MorphingBlob className="bottom-10 right-10" size={600} />
+        <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative z-10 w-full max-w-md"
-      >
-        <div className="glass-strong p-8 rounded-3xl border border-white/20">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-white/70 hover:text-white mb-6 font-space-grotesk"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Home
-          </Link>
-
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-white/20 to-glass-accent/20 flex items-center justify-center">
-              <LogIn className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h1 className="text-3xl font-orbitron font-bold text-white">Login</h1>
-              <p className="text-gray-400 font-space-grotesk">Welcome back</p>
-            </div>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-white font-space-grotesk font-semibold mb-2">
-                Username
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
-                <input
-                  type="text"
-                  required
-                  value={formData.username}
-                  onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                  className="w-full pl-12 pr-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
-                  placeholder="Enter your username"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-white font-space-grotesk font-semibold mb-2">
-                Password
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
-                <input
-                  type="password"
-                  required
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="w-full pl-12 pr-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
-                  placeholder="Enter your password"
-                />
-              </div>
-            </div>
-
-            {error && (
-              <div className="p-4 rounded-xl bg-red-500/20 border border-red-500/50 text-red-400 font-space-grotesk">
-                {error}
-              </div>
-            )}
-
-            <motion.button
-              type="submit"
-              disabled={isLoading}
-              whileHover={{ scale: isLoading ? 1 : 1.02 }}
-              whileTap={{ scale: isLoading ? 1 : 0.98 }}
-              className="w-full px-6 py-4 rounded-xl glass border border-white/20 text-white font-space-grotesk font-bold text-lg flex items-center justify-center gap-2 hover:border-white/50 transition-all disabled:opacity-50"
+      <div className="min-h-screen flex items-center justify-center p-4 relative z-10 pt-24">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="w-full max-w-md"
+        >
+          <div className="glass-strong p-8 rounded-3xl border border-gray-200 shadow-xl">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 font-space-grotesk transition-colors"
             >
-              {isLoading ? 'Logging in...' : 'Login'}
-            </motion.button>
-          </form>
-
-          <p className="text-center text-gray-400 font-space-grotesk mt-6">
-            Don't have an account?{' '}
-            <Link href="/register" className="text-white hover:text-glass-accent transition-colors">
-              Sign up
+              <ArrowLeft className="w-4 h-4" />
+              Back to Home
             </Link>
-          </p>
-        </div>
-      </motion.div>
+
+            <div className="flex items-center gap-3 mb-8">
+              <motion.div
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                className="w-12 h-12 rounded-xl bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 flex items-center justify-center relative"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 rounded-xl blur-lg opacity-50" />
+                <LogIn className="w-6 h-6 text-white relative z-10" />
+              </motion.div>
+              <div>
+                <h1 className="text-3xl font-orbitron font-bold gradient-text">Login</h1>
+                <p className="text-gray-600 font-space-grotesk">Welcome back</p>
+              </div>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
+                  Username
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <input
+                    type="text"
+                    required
+                    value={formData.username}
+                    onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                    className="w-full pl-12 pr-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
+                    placeholder="Enter your username"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
+                  Password
+                </label>
+                <div className="relative">
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <input
+                    type="password"
+                    required
+                    value={formData.password}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    className="w-full pl-12 pr-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
+                    placeholder="Enter your password"
+                  />
+                </div>
+              </div>
+
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-600 font-space-grotesk"
+                >
+                  {error}
+                </motion.div>
+              )}
+
+              <motion.button
+                type="submit"
+                disabled={isLoading}
+                whileHover={{ scale: isLoading ? 1 : 1.02, y: -2 }}
+                whileTap={{ scale: isLoading ? 1 : 0.98 }}
+                className="w-full relative px-6 py-4 rounded-xl font-space-grotesk font-bold text-lg overflow-hidden group disabled:opacity-50"
+              >
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400"
+                  animate={{
+                    backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: 'linear',
+                  }}
+                  style={{
+                    backgroundSize: '200% 200%',
+                  }}
+                />
+                <span className="relative z-10 text-white flex items-center justify-center gap-2">
+                  {isLoading ? (
+                    <>
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                      >
+                        <Sparkles className="w-5 h-5" />
+                      </motion.div>
+                      Logging in...
+                    </>
+                  ) : (
+                    <>
+                      <LogIn className="w-5 h-5" />
+                      Login
+                    </>
+                  )}
+                </span>
+              </motion.button>
+            </form>
+
+            <p className="text-center text-gray-600 font-space-grotesk mt-6">
+              Don't have an account?{' '}
+              <Link href="/register" className="text-blue-600 hover:text-blue-700 font-semibold transition-colors">
+                Sign up
+              </Link>
+            </p>
+          </div>
+        </motion.div>
+      </div>
     </div>
   )
 }

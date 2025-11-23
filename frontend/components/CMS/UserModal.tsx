@@ -75,7 +75,7 @@ export default function UserModal({ isOpen, onClose, user, onSuccess }: UserModa
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
         onClick={onClose}
       >
         <motion.div
@@ -83,23 +83,23 @@ export default function UserModal({ isOpen, onClose, user, onSuccess }: UserModa
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-2xl glass-strong rounded-3xl border border-white/20 p-8 max-h-[90vh] overflow-y-auto"
+          className="relative w-full max-w-2xl glass-strong rounded-3xl border border-gray-200 shadow-2xl p-8 max-h-[90vh] overflow-y-auto bg-white"
         >
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-10 h-10 rounded-lg glass border border-white/10 flex items-center justify-center text-white hover:border-white/50 transition-all"
+            className="absolute top-4 right-4 w-10 h-10 rounded-lg glass border border-gray-200 flex items-center justify-center text-gray-900 hover:border-gray-300 hover:bg-gray-50 transition-all"
           >
             <X className="w-5 h-5" />
           </button>
 
-          <h2 className="text-3xl font-orbitron font-bold text-white mb-6">
+          <h2 className="text-3xl font-orbitron font-bold gradient-text mb-6">
             Edit User
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   Username *
                 </label>
                 <input
@@ -107,12 +107,12 @@ export default function UserModal({ isOpen, onClose, user, onSuccess }: UserModa
                   required
                   value={formData.username}
                   onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                  className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                  className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                   placeholder="username"
                 />
               </div>
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   Email *
                 </label>
                 <input
@@ -120,7 +120,7 @@ export default function UserModal({ isOpen, onClose, user, onSuccess }: UserModa
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                  className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                   placeholder="user@example.com"
                 />
               </div>
@@ -128,44 +128,44 @@ export default function UserModal({ isOpen, onClose, user, onSuccess }: UserModa
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   First Name
                 </label>
                 <input
                   type="text"
                   value={formData.first_name}
                   onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-                  className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                  className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                   placeholder="John"
                 />
               </div>
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   Last Name
                 </label>
                 <input
                   type="text"
                   value={formData.last_name}
                   onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
-                  className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                  className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                   placeholder="Doe"
                 />
               </div>
             </div>
 
-            <div className="space-y-4 p-4 glass border border-white/10 rounded-xl">
-              <h3 className="text-white font-space-grotesk font-semibold mb-3">Permissions</h3>
+            <div className="space-y-4 p-4 glass border border-gray-200 rounded-xl">
+              <h3 className="text-gray-900 font-space-grotesk font-semibold mb-3">Permissions</h3>
               <div className="space-y-3">
                 <label className="flex items-center gap-3 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={formData.is_staff}
                     onChange={(e) => setFormData({ ...formData, is_staff: e.target.checked })}
-                    className="w-5 h-5 rounded"
+                    className="w-5 h-5 rounded text-blue-600 focus:ring-blue-500"
                   />
                   <div>
-                    <span className="text-white font-space-grotesk font-semibold">Staff Status</span>
-                    <p className="text-gray-400 font-space-grotesk text-sm">Allow access to CMS</p>
+                    <span className="text-gray-900 font-space-grotesk font-semibold">Staff Status</span>
+                    <p className="text-gray-600 font-space-grotesk text-sm">Allow access to CMS</p>
                   </div>
                 </label>
                 <label className="flex items-center gap-3 cursor-pointer">
@@ -173,31 +173,51 @@ export default function UserModal({ isOpen, onClose, user, onSuccess }: UserModa
                     type="checkbox"
                     checked={formData.is_superuser}
                     onChange={(e) => setFormData({ ...formData, is_superuser: e.target.checked })}
-                    className="w-5 h-5 rounded"
+                    className="w-5 h-5 rounded text-blue-600 focus:ring-blue-500"
                   />
                   <div>
-                    <span className="text-white font-space-grotesk font-semibold">Superuser Status</span>
-                    <p className="text-gray-400 font-space-grotesk text-sm">Full admin access</p>
+                    <span className="text-gray-900 font-space-grotesk font-semibold">Superuser Status</span>
+                    <p className="text-gray-600 font-space-grotesk text-sm">Full admin access</p>
                   </div>
                 </label>
               </div>
             </div>
 
             {error && (
-              <div className="p-4 rounded-xl bg-red-500/20 border border-red-500/50 text-red-400 font-space-grotesk">
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-600 font-space-grotesk whitespace-pre-line"
+              >
                 {error}
-              </div>
+              </motion.div>
             )}
 
             <motion.button
               type="submit"
               disabled={isSaving}
-              whileHover={{ scale: isSaving ? 1 : 1.02 }}
+              whileHover={{ scale: isSaving ? 1 : 1.02, y: -2 }}
               whileTap={{ scale: isSaving ? 1 : 0.98 }}
-              className="w-full px-6 py-4 rounded-xl glass border border-white/20 text-white font-space-grotesk font-bold text-lg flex items-center justify-center gap-2 hover:border-white/50 transition-all disabled:opacity-50"
+              className="w-full relative px-6 py-4 rounded-xl font-space-grotesk font-bold text-lg overflow-hidden group disabled:opacity-50"
             >
-              <Save className="w-5 h-5" />
-              {isSaving ? 'Saving...' : 'Update User'}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400"
+                animate={{
+                  backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: 'linear',
+                }}
+                style={{
+                  backgroundSize: '200% 200%',
+                }}
+              />
+              <span className="relative z-10 text-white flex items-center justify-center gap-2">
+                <Save className="w-5 h-5" />
+                {isSaving ? 'Saving...' : 'Update User'}
+              </span>
             </motion.button>
           </form>
         </motion.div>

@@ -86,7 +86,7 @@ export default function JobModal({ isOpen, onClose, job, onSuccess }: JobModalPr
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
         onClick={onClose}
       >
         <motion.div
@@ -94,23 +94,23 @@ export default function JobModal({ isOpen, onClose, job, onSuccess }: JobModalPr
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-3xl glass-strong rounded-3xl border border-white/20 p-8 max-h-[90vh] overflow-y-auto"
+          className="relative w-full max-w-3xl glass-strong rounded-3xl border border-gray-200 shadow-2xl p-8 max-h-[90vh] overflow-y-auto bg-white"
         >
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-10 h-10 rounded-lg glass border border-white/10 flex items-center justify-center text-white hover:border-white/50 transition-all"
+            className="absolute top-4 right-4 w-10 h-10 rounded-lg glass border border-gray-200 flex items-center justify-center text-gray-900 hover:border-gray-300 hover:bg-gray-50 transition-all"
           >
             <X className="w-5 h-5" />
           </button>
 
-          <h2 className="text-3xl font-orbitron font-bold text-white mb-6">
+          <h2 className="text-3xl font-orbitron font-bold gradient-text mb-6">
             {job ? 'Edit Job' : 'Add New Job'}
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   Title *
                 </label>
                 <input
@@ -118,12 +118,12 @@ export default function JobModal({ isOpen, onClose, job, onSuccess }: JobModalPr
                   required
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                  className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                   placeholder="Software Engineer"
                 />
               </div>
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   Department *
                 </label>
                 <input
@@ -131,7 +131,7 @@ export default function JobModal({ isOpen, onClose, job, onSuccess }: JobModalPr
                   required
                   value={formData.department}
                   onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                  className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                  className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                   placeholder="Engineering"
                 />
               </div>
@@ -139,7 +139,7 @@ export default function JobModal({ isOpen, onClose, job, onSuccess }: JobModalPr
 
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   Location *
                 </label>
                 <input
@@ -147,19 +147,19 @@ export default function JobModal({ isOpen, onClose, job, onSuccess }: JobModalPr
                   required
                   value={formData.location}
                   onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                  className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                  className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                   placeholder="Remote"
                 />
               </div>
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   Job Type *
                 </label>
                 <select
                   required
                   value={formData.job_type}
                   onChange={(e) => setFormData({ ...formData, job_type: e.target.value })}
-                  className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                  className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 bg-white focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                 >
                   <option value="full-time">Full Time</option>
                   <option value="part-time">Part Time</option>
@@ -168,21 +168,21 @@ export default function JobModal({ isOpen, onClose, job, onSuccess }: JobModalPr
                 </select>
               </div>
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   Salary Range
                 </label>
                 <input
                   type="text"
                   value={formData.salary_range}
                   onChange={(e) => setFormData({ ...formData, salary_range: e.target.value })}
-                  className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                  className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                   placeholder="$80k - $120k"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-white font-space-grotesk font-semibold mb-2">
+              <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                 Description *
               </label>
               <textarea
@@ -190,13 +190,13 @@ export default function JobModal({ isOpen, onClose, job, onSuccess }: JobModalPr
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 rows={4}
-                className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all resize-none font-space-grotesk"
+                className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all resize-none font-space-grotesk"
                 placeholder="Job description..."
               />
             </div>
 
             <div>
-              <label className="block text-white font-space-grotesk font-semibold mb-2">
+              <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                 Requirements *
               </label>
               <textarea
@@ -204,13 +204,13 @@ export default function JobModal({ isOpen, onClose, job, onSuccess }: JobModalPr
                 value={formData.requirements}
                 onChange={(e) => setFormData({ ...formData, requirements: e.target.value })}
                 rows={4}
-                className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all resize-none font-space-grotesk"
+                className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all resize-none font-space-grotesk"
                 placeholder="Required skills and qualifications..."
               />
             </div>
 
             <div>
-              <label className="block text-white font-space-grotesk font-semibold mb-2">
+              <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                 Responsibilities *
               </label>
               <textarea
@@ -218,21 +218,21 @@ export default function JobModal({ isOpen, onClose, job, onSuccess }: JobModalPr
                 value={formData.responsibilities}
                 onChange={(e) => setFormData({ ...formData, responsibilities: e.target.value })}
                 rows={4}
-                className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all resize-none font-space-grotesk"
+                className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all resize-none font-space-grotesk"
                 placeholder="Key responsibilities..."
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   Application Deadline
                 </label>
                 <input
                   type="date"
                   value={formData.application_deadline}
                   onChange={(e) => setFormData({ ...formData, application_deadline: e.target.value })}
-                  className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                  className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                 />
               </div>
               <div className="flex items-center gap-3 pt-8">
@@ -241,29 +241,49 @@ export default function JobModal({ isOpen, onClose, job, onSuccess }: JobModalPr
                   id="is_active"
                   checked={formData.is_active}
                   onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-                  className="w-5 h-5 rounded"
+                  className="w-5 h-5 rounded text-blue-600 focus:ring-blue-500"
                 />
-                <label htmlFor="is_active" className="text-white font-space-grotesk">
+                <label htmlFor="is_active" className="text-gray-900 font-space-grotesk">
                   Active (visible on website)
                 </label>
               </div>
             </div>
 
             {error && (
-              <div className="p-4 rounded-xl bg-red-500/20 border border-red-500/50 text-red-400 font-space-grotesk">
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-600 font-space-grotesk"
+              >
                 {error}
-              </div>
+              </motion.div>
             )}
 
             <motion.button
               type="submit"
               disabled={isSaving}
-              whileHover={{ scale: isSaving ? 1 : 1.02 }}
+              whileHover={{ scale: isSaving ? 1 : 1.02, y: -2 }}
               whileTap={{ scale: isSaving ? 1 : 0.98 }}
-              className="w-full px-6 py-4 rounded-xl glass border border-white/20 text-white font-space-grotesk font-bold text-lg flex items-center justify-center gap-2 hover:border-white/50 transition-all disabled:opacity-50"
+              className="w-full relative px-6 py-4 rounded-xl font-space-grotesk font-bold text-lg overflow-hidden group disabled:opacity-50"
             >
-              <Save className="w-5 h-5" />
-              {isSaving ? 'Saving...' : job ? 'Update Job' : 'Create Job'}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400"
+                animate={{
+                  backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: 'linear',
+                }}
+                style={{
+                  backgroundSize: '200% 200%',
+                }}
+              />
+              <span className="relative z-10 text-white flex items-center justify-center gap-2">
+                <Save className="w-5 h-5" />
+                {isSaving ? 'Saving...' : job ? 'Update Job' : 'Create Job'}
+              </span>
             </motion.button>
           </form>
         </motion.div>

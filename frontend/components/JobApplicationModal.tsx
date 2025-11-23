@@ -102,7 +102,7 @@ export default function JobApplicationModal({ job, onClose }: JobApplicationModa
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
         onClick={onClose}
       >
         <motion.div
@@ -110,26 +110,26 @@ export default function JobApplicationModal({ job, onClose }: JobApplicationModa
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-2xl glass-strong rounded-3xl border border-white/20 p-8 max-h-[90vh] overflow-y-auto"
+          className="relative w-full max-w-2xl glass-strong rounded-3xl border border-gray-200 shadow-2xl p-8 max-h-[90vh] overflow-y-auto bg-white"
         >
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-10 h-10 rounded-lg glass border border-white/10 flex items-center justify-center text-white hover:border-white/50 transition-all"
+            className="absolute top-4 right-4 w-10 h-10 rounded-lg glass border border-gray-200 flex items-center justify-center text-gray-900 hover:border-gray-300 hover:bg-gray-50 transition-all"
           >
             <X className="w-5 h-5" />
           </button>
 
-          <h2 className="text-3xl font-orbitron font-bold text-white mb-2">
+          <h2 className="text-3xl font-orbitron font-bold gradient-text mb-2">
             Apply for {job.title}
           </h2>
-          <p className="text-glass-accent font-space-grotesk mb-8">
+          <p className="text-blue-600 font-space-grotesk mb-8">
             {job.department}
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   First Name *
                 </label>
                 <input
@@ -137,12 +137,12 @@ export default function JobApplicationModal({ job, onClose }: JobApplicationModa
                   required
                   value={formData.first_name}
                   onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-                  className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                  className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                   placeholder="John"
                 />
               </div>
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   Last Name *
                 </label>
                 <input
@@ -150,14 +150,14 @@ export default function JobApplicationModal({ job, onClose }: JobApplicationModa
                   required
                   value={formData.last_name}
                   onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
-                  className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                  className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                   placeholder="Doe"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-white font-space-grotesk font-semibold mb-2">
+              <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                 Email *
               </label>
               <input
@@ -165,38 +165,38 @@ export default function JobApplicationModal({ job, onClose }: JobApplicationModa
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                 placeholder="john.doe@example.com"
               />
             </div>
 
             <div>
-              <label className="block text-white font-space-grotesk font-semibold mb-2">
+              <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                 Phone
               </label>
               <input
                 type="tel"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                 placeholder="+1 (555) 123-4567"
               />
             </div>
 
             <div>
-              <label className="block text-white font-space-grotesk font-semibold mb-2">
+              <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                 Resume * (PDF, DOC, DOCX - Max 5MB)
               </label>
-              <label className="flex items-center gap-4 p-6 glass border border-white/10 rounded-xl cursor-pointer hover:border-white/50 transition-all">
-                <Upload className="w-6 h-6 text-white" />
+              <label className="flex items-center gap-4 p-6 glass border border-gray-200 rounded-xl cursor-pointer hover:border-blue-500/50 transition-all">
+                <Upload className="w-6 h-6 text-blue-600" />
                 <div className="flex-1">
                   {resume ? (
-                    <div className="flex items-center gap-2 text-white">
+                    <div className="flex items-center gap-2 text-gray-900">
                       <FileText className="w-5 h-5" />
                       <span className="font-space-grotesk">{resume.name}</span>
                     </div>
                   ) : (
-                    <span className="text-gray-400 font-space-grotesk">Click to upload resume</span>
+                    <span className="text-gray-600 font-space-grotesk">Click to upload resume</span>
                   )}
                 </div>
                 <input
@@ -210,53 +210,77 @@ export default function JobApplicationModal({ job, onClose }: JobApplicationModa
             </div>
 
             <div>
-              <label className="block text-white font-space-grotesk font-semibold mb-2">
+              <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                 Cover Letter
               </label>
               <textarea
                 value={formData.cover_letter}
                 onChange={(e) => setFormData({ ...formData, cover_letter: e.target.value })}
                 rows={6}
-                className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all resize-none font-space-grotesk"
+                className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all resize-none font-space-grotesk"
                 placeholder="Tell us why you're interested in this position..."
               />
             </div>
 
             {errorMessage && (
-              <div className="p-4 rounded-xl bg-red-500/20 border border-red-500/50 text-red-400 font-space-grotesk">
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-600 font-space-grotesk"
+              >
                 {errorMessage}
-              </div>
+              </motion.div>
             )}
 
             {submitStatus === 'success' && (
-              <div className="p-4 rounded-xl bg-green-500/20 border border-green-500/50 text-green-400 font-space-grotesk">
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-4 rounded-xl bg-green-500/10 border border-green-500/30 text-green-600 font-space-grotesk"
+              >
                 Application submitted successfully!
-              </div>
+              </motion.div>
             )}
 
             <motion.button
               type="submit"
               disabled={isSubmitting}
-              whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
-              whileTap={{ scale: isSubmitting ? 1 : 0.95 }}
-              className="w-full px-8 py-4 rounded-xl glass border border-white/20 text-white font-space-grotesk font-bold text-lg flex items-center justify-center gap-2 hover:border-white/50 transition-all disabled:opacity-50"
+              whileHover={{ scale: isSubmitting ? 1 : 1.02, y: -2 }}
+              whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+              className="w-full relative px-8 py-4 rounded-xl font-space-grotesk font-bold text-lg overflow-hidden group disabled:opacity-50"
             >
-              {isSubmitting ? (
-                <>
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                  >
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400"
+                animate={{
+                  backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: 'linear',
+                }}
+                style={{
+                  backgroundSize: '200% 200%',
+                }}
+              />
+              <span className="relative z-10 text-white flex items-center justify-center gap-2">
+                {isSubmitting ? (
+                  <>
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                    >
+                      <Send className="w-5 h-5" />
+                    </motion.div>
+                    Submitting...
+                  </>
+                ) : (
+                  <>
+                    Submit Application
                     <Send className="w-5 h-5" />
-                  </motion.div>
-                  Submitting...
-                </>
-              ) : (
-                <>
-                  Submit Application
-                  <Send className="w-5 h-5" />
-                </>
-              )}
+                  </>
+                )}
+              </span>
             </motion.button>
           </form>
         </motion.div>

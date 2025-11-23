@@ -13,6 +13,10 @@ import Link from 'next/link'
 import JobModal from '@/components/CMS/JobModal'
 import TeamModal from '@/components/CMS/TeamModal'
 import UserModal from '@/components/CMS/UserModal'
+import ApplicationModal from '@/components/CMS/ApplicationModal'
+import Navbar from '@/components/Navbar'
+import ParticleSystem from '@/components/ParticleSystem'
+import MorphingBlob from '@/components/MorphingBlob'
 
 export default function CMSPage() {
   const router = useRouter()
@@ -29,9 +33,11 @@ export default function CMSPage() {
   const [jobModalOpen, setJobModalOpen] = useState(false)
   const [teamModalOpen, setTeamModalOpen] = useState(false)
   const [userModalOpen, setUserModalOpen] = useState(false)
+  const [applicationModalOpen, setApplicationModalOpen] = useState(false)
   const [selectedJob, setSelectedJob] = useState<any>(null)
   const [selectedMember, setSelectedMember] = useState<any>(null)
   const [selectedUser, setSelectedUser] = useState<any>(null)
+  const [selectedApplication, setSelectedApplication] = useState<any>(null)
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
@@ -126,26 +132,9 @@ export default function CMSPage() {
     setTeamModalOpen(true)
   }
 
-  const handleUpdateApplicationStatus = async (app: any) => {
-    const newStatus = prompt(`Current status: ${app.status}\n\nEnter new status (pending, reviewing, shortlisted, rejected, accepted):`, app.status)
-    if (!newStatus || newStatus === app.status) return
-
-    const validStatuses = ['pending', 'reviewing', 'shortlisted', 'rejected', 'accepted']
-    if (!validStatuses.includes(newStatus.toLowerCase())) {
-      alert('Invalid status. Please use: pending, reviewing, shortlisted, rejected, or accepted')
-      return
-    }
-
-    try {
-      await api.patch(`/applications/${app.id}/update_status/`, {
-        status: newStatus.toLowerCase(),
-      })
-      alert('Application status updated successfully!')
-      fetchData()
-    } catch (error: any) {
-      console.error('Error updating status:', error)
-      alert(error.response?.data?.error || 'Failed to update status. Please try again.')
-    }
+  const handleEditApplication = (app: any) => {
+    setSelectedApplication(app)
+    setApplicationModalOpen(true)
   }
 
   const handleEditUser = (user: any) => {
@@ -178,25 +167,31 @@ export default function CMSPage() {
 
   if (loading || !isAuthenticated) {
     return (
-      <div className="min-h-screen bg-dark-bg flex items-center justify-center">
-        <div className="text-white">Loading...</div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-gray-900">Loading...</div>
       </div>
     )
   }
 
   if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-dark-bg flex items-center justify-center p-4">
-        <div className="glass-strong p-8 rounded-3xl border border-white/20 text-center max-w-md">
-          <h2 className="text-2xl font-orbitron font-bold text-white mb-4">
+      <div className="min-h-screen bg-white flex items-center justify-center p-4 relative overflow-hidden">
+        <ParticleSystem />
+        <Navbar />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <MorphingBlob className="top-10 left-10" size={500} />
+          <MorphingBlob className="bottom-10 right-10" size={600} />
+        </div>
+        <div className="relative z-10 glass-strong p-8 rounded-3xl border border-gray-200 shadow-xl text-center max-w-md">
+          <h2 className="text-2xl font-orbitron font-bold gradient-text mb-4">
             Access Denied
           </h2>
-          <p className="text-gray-400 font-space-grotesk mb-6">
+          <p className="text-gray-600 font-space-grotesk mb-6">
             You need administrator privileges to access the CMS.
           </p>
           <Link
             href="/"
-            className="inline-block px-6 py-3 glass border border-white/20 rounded-xl text-white font-space-grotesk font-semibold hover:border-white/50 transition-all"
+            className="inline-block px-6 py-3 glass border border-gray-200 rounded-xl text-gray-900 font-space-grotesk font-semibold hover:border-blue-500/50 transition-all"
           >
             Go to Home
           </Link>
@@ -207,26 +202,38 @@ export default function CMSPage() {
 
   return (
     <>
-      <div className="min-h-screen bg-dark-bg pt-24 pb-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      <div className="min-h-screen bg-white relative overflow-hidden">
+        <ParticleSystem />
+        <Navbar />
+        
+        {/* Background Effects */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <MorphingBlob className="top-10 left-10" size={500} />
+          <MorphingBlob className="bottom-10 right-10" size={600} />
+          <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
+        </div>
+
+        <div className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-4xl font-orbitron font-bold text-white mb-2">
+              <h1 className="text-4xl font-orbitron font-bold gradient-text mb-2">
                 Content Management System
               </h1>
-              <p className="text-gray-400 font-space-grotesk">
+              <p className="text-gray-600 font-space-grotesk">
                 Manage your website content
               </p>
             </div>
             <Link
               href="/"
-              className="px-6 py-3 glass border border-white/20 rounded-xl text-white font-space-grotesk hover:border-white/50 transition-all"
+              className="px-6 py-3 glass border border-gray-200 rounded-xl text-gray-900 font-space-grotesk hover:border-blue-500/50 transition-all"
             >
               Back to Website
             </Link>
           </div>
 
-          <div className="flex gap-4 mb-8 border-b border-white/10">
+          <div className="flex gap-4 mb-8 border-b border-gray-200">
             {[
               { id: 'jobs', label: 'Jobs', icon: Briefcase },
               { id: 'team', label: 'Team', icon: Users },
@@ -239,8 +246,8 @@ export default function CMSPage() {
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`px-6 py-3 font-space-grotesk font-semibold flex items-center gap-2 transition-all ${
                   activeTab === tab.id
-                    ? 'text-white border-b-2 border-white'
-                    : 'text-gray-400 hover:text-white'
+                    ? 'text-blue-600 border-b-2 border-blue-600'
+                    : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
                 <tab.icon className="w-5 h-5" />
@@ -249,52 +256,66 @@ export default function CMSPage() {
             ))}
           </div>
 
-          <div className="glass-strong rounded-3xl border border-white/20 p-8">
+          <div className="glass-strong rounded-3xl border border-gray-200 shadow-xl p-8">
             {loadingData ? (
               <div className="text-center py-20">
-                <div className="text-white">Loading...</div>
+                <div className="text-gray-900">Loading...</div>
               </div>
             ) : (
               <>
                 {activeTab === 'jobs' && (
                   <div>
                     <div className="flex justify-between items-center mb-6">
-                      <h2 className="text-2xl font-orbitron font-bold text-white">Job Postings</h2>
+                      <h2 className="text-2xl font-orbitron font-bold gradient-text">Job Postings</h2>
                       <motion.button
                         onClick={handleAddJob}
-                        whileHover={{ scale: 1.05 }}
+                        whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
-                        className="px-6 py-3 glass border border-white/20 rounded-xl text-white font-space-grotesk flex items-center gap-2 hover:border-white/50 transition-all"
+                        className="relative px-6 py-3 rounded-xl font-space-grotesk flex items-center gap-2 overflow-hidden group"
                       >
-                        <Plus className="w-5 h-5" />
-                        Add Job
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400"
+                          animate={{
+                            backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                          }}
+                          transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            ease: 'linear',
+                          }}
+                          style={{
+                            backgroundSize: '200% 200%',
+                          }}
+                        />
+                        <Plus className="w-5 h-5 relative z-10 text-white" />
+                        <span className="relative z-10 text-white font-semibold">Add Job</span>
                       </motion.button>
                     </div>
                     <div className="space-y-4">
                       {jobs.length === 0 ? (
                         <div className="text-center py-12">
-                          <Briefcase className="w-16 h-16 text-white/20 mx-auto mb-4" />
-                          <p className="text-gray-400 font-space-grotesk">No jobs posted yet. Click "Add Job" to create one.</p>
+                          <Briefcase className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                          <p className="text-gray-600 font-space-grotesk">No jobs posted yet. Click "Add Job" to create one.</p>
                         </div>
                       ) : (
                         jobs.map((job) => (
                           <div
                             key={job.id}
-                            className="glass p-6 rounded-2xl border border-white/10"
+                            className="glass p-6 rounded-2xl border border-gray-200 hover:border-blue-500/50 transition-all"
                           >
                             <div className="flex justify-between items-start">
                               <div className="flex-1">
-                                <h3 className="text-xl font-orbitron font-bold text-white mb-2">
+                                <h3 className="text-xl font-orbitron font-bold text-gray-900 mb-2">
                                   {job.title}
                                 </h3>
-                                <p className="text-glass-accent font-space-grotesk mb-2">
+                                <p className="text-blue-600 font-space-grotesk mb-2">
                                   {job.department} • {job.location} • {job.job_type}
                                 </p>
-                                <p className="text-gray-400 font-space-grotesk text-sm line-clamp-2 mb-2">
+                                <p className="text-gray-600 font-space-grotesk text-sm line-clamp-2 mb-2">
                                   {job.description}
                                 </p>
-                                <span className={`inline-block px-3 py-1 rounded-lg text-xs font-space-grotesk font-semibold ${
-                                  job.is_active ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'
+                                <span className={`inline-block px-3 py-1 rounded-lg text-xs font-space-grotesk font-semibold border ${
+                                  job.is_active ? 'bg-green-500/10 text-green-600 border-green-500/30' : 'bg-gray-500/10 text-gray-600 border-gray-500/30'
                                 }`}>
                                   {job.is_active ? 'Active' : 'Inactive'}
                                 </span>
@@ -304,7 +325,7 @@ export default function CMSPage() {
                                   onClick={() => handleEditJob(job)}
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
-                                  className="p-2 glass border border-white/10 rounded-lg text-white hover:border-white/50 transition-all"
+                                  className="p-2 glass border border-gray-200 rounded-lg text-gray-900 hover:border-blue-500/50 transition-all"
                                 >
                                   <Edit className="w-4 h-4" />
                                 </motion.button>
@@ -312,7 +333,7 @@ export default function CMSPage() {
                                   onClick={() => handleDeleteJob(job.id)}
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
-                                  className="p-2 glass border border-white/10 rounded-lg text-red-400 hover:border-red-400/50 transition-all"
+                                  className="p-2 glass border border-gray-200 rounded-lg text-red-600 hover:border-red-500/50 transition-all"
                                 >
                                   <Trash2 className="w-4 h-4" />
                                 </motion.button>
@@ -328,35 +349,49 @@ export default function CMSPage() {
                 {activeTab === 'team' && (
                   <div>
                     <div className="flex justify-between items-center mb-6">
-                      <h2 className="text-2xl font-orbitron font-bold text-white">Team Members</h2>
+                      <h2 className="text-2xl font-orbitron font-bold gradient-text">Team Members</h2>
                       <motion.button
                         onClick={handleAddMember}
-                        whileHover={{ scale: 1.05 }}
+                        whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
-                        className="px-6 py-3 glass border border-white/20 rounded-xl text-white font-space-grotesk flex items-center gap-2 hover:border-white/50 transition-all"
+                        className="relative px-6 py-3 rounded-xl font-space-grotesk flex items-center gap-2 overflow-hidden group"
                       >
-                        <Plus className="w-5 h-5" />
-                        Add Member
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400"
+                          animate={{
+                            backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                          }}
+                          transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            ease: 'linear',
+                          }}
+                          style={{
+                            backgroundSize: '200% 200%',
+                          }}
+                        />
+                        <Plus className="w-5 h-5 relative z-10 text-white" />
+                        <span className="relative z-10 text-white font-semibold">Add Member</span>
                       </motion.button>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                       {team.length === 0 ? (
                         <div className="col-span-full text-center py-12">
-                          <Users className="w-16 h-16 text-white/20 mx-auto mb-4" />
-                          <p className="text-gray-400 font-space-grotesk">No team members yet. Click "Add Member" to add one.</p>
+                          <Users className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                          <p className="text-gray-600 font-space-grotesk">No team members yet. Click "Add Member" to add one.</p>
                         </div>
                       ) : (
                         team.map((member) => (
                           <div
                             key={member.id}
-                            className="glass p-6 rounded-2xl border border-white/10"
+                            className="glass p-6 rounded-2xl border border-gray-200 hover:border-blue-500/50 transition-all"
                           >
                             <div className="flex justify-between items-start mb-4">
                               <div className="flex-1">
-                                <h3 className="text-lg font-orbitron font-bold text-white">
+                                <h3 className="text-lg font-orbitron font-bold text-gray-900">
                                   {member.name}
                                 </h3>
-                                <p className="text-glass-accent font-space-grotesk text-sm">
+                                <p className="text-blue-600 font-space-grotesk text-sm">
                                   {member.position}
                                 </p>
                               </div>
@@ -365,7 +400,7 @@ export default function CMSPage() {
                                   onClick={() => handleEditMember(member)}
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
-                                  className="p-2 glass border border-white/10 rounded-lg text-white hover:border-white/50 transition-all"
+                                  className="p-2 glass border border-gray-200 rounded-lg text-gray-900 hover:border-blue-500/50 transition-all"
                                 >
                                   <Edit className="w-4 h-4" />
                                 </motion.button>
@@ -373,7 +408,7 @@ export default function CMSPage() {
                                   onClick={() => handleDeleteMember(member.id)}
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
-                                  className="p-2 glass border border-white/10 rounded-lg text-red-400 hover:border-red-400/50 transition-all"
+                                  className="p-2 glass border border-gray-200 rounded-lg text-red-600 hover:border-red-500/50 transition-all"
                                 >
                                   <Trash2 className="w-4 h-4" />
                                 </motion.button>
@@ -388,62 +423,62 @@ export default function CMSPage() {
 
                 {activeTab === 'applications' && (
                   <div>
-                    <h2 className="text-2xl font-orbitron font-bold text-white mb-6">
+                    <h2 className="text-2xl font-orbitron font-bold gradient-text mb-6">
                       Job Applications
                     </h2>
                     <div className="space-y-4">
                       {applications.length === 0 ? (
                         <div className="text-center py-12">
-                          <FileText className="w-16 h-16 text-white/20 mx-auto mb-4" />
-                          <p className="text-gray-400 font-space-grotesk">No applications yet.</p>
+                          <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                          <p className="text-gray-600 font-space-grotesk">No applications yet.</p>
                         </div>
                       ) : (
                         applications.map((app: any) => (
                           <div
                             key={app.id}
-                            className="glass p-6 rounded-2xl border border-white/10"
+                            className="glass p-6 rounded-2xl border border-gray-200 hover:border-blue-500/50 transition-all"
                           >
                             <div className="flex justify-between items-start mb-4">
                               <div className="flex-1">
-                                <h3 className="text-xl font-orbitron font-bold text-white mb-2">
+                                <h3 className="text-xl font-orbitron font-bold text-gray-900 mb-2">
                                   {app.first_name} {app.last_name}
                                 </h3>
-                                <p className="text-glass-accent font-space-grotesk mb-3">
+                                <p className="text-blue-600 font-space-grotesk mb-3">
                                   Applied for: {app.job_title}
                                 </p>
                                 <div className="space-y-2 mb-4">
-                                  <div className="flex items-center gap-2 text-gray-400 font-space-grotesk text-sm">
+                                  <div className="flex items-center gap-2 text-gray-600 font-space-grotesk text-sm">
                                     <Mail className="w-4 h-4" />
                                     {app.email}
                                   </div>
                                   {app.phone && (
-                                    <div className="flex items-center gap-2 text-gray-400 font-space-grotesk text-sm">
+                                    <div className="flex items-center gap-2 text-gray-600 font-space-grotesk text-sm">
                                       <Phone className="w-4 h-4" />
                                       {app.phone}
                                     </div>
                                   )}
-                                  <div className="flex items-center gap-2 text-gray-400 font-space-grotesk text-sm">
+                                  <div className="flex items-center gap-2 text-gray-600 font-space-grotesk text-sm">
                                     <Calendar className="w-4 h-4" />
                                     {new Date(app.applied_date).toLocaleDateString()}
                                   </div>
                                 </div>
                                 {app.cover_letter && (
                                   <div className="mb-4">
-                                    <p className="text-white font-space-grotesk font-semibold mb-2">Cover Letter:</p>
-                                    <p className="text-gray-400 font-space-grotesk text-sm line-clamp-3">
+                                    <p className="text-gray-900 font-space-grotesk font-semibold mb-2">Cover Letter:</p>
+                                    <p className="text-gray-600 font-space-grotesk text-sm line-clamp-3">
                                       {app.cover_letter}
                                     </p>
                                   </div>
                                 )}
                                 <span
-                                  className={`inline-block px-3 py-1 rounded-lg text-xs font-space-grotesk font-semibold ${
+                                  className={`inline-block px-3 py-1 rounded-lg text-xs font-space-grotesk font-semibold border ${
                                     app.status === 'accepted'
-                                      ? 'bg-green-500/20 text-green-400'
+                                      ? 'bg-green-500/10 text-green-600 border-green-500/30'
                                       : app.status === 'rejected'
-                                      ? 'bg-red-500/20 text-red-400'
+                                      ? 'bg-red-500/10 text-red-600 border-red-500/30'
                                       : app.status === 'shortlisted'
-                                      ? 'bg-blue-500/20 text-blue-400'
-                                      : 'bg-yellow-500/20 text-yellow-400'
+                                      ? 'bg-blue-500/10 text-blue-600 border-blue-500/30'
+                                      : 'bg-yellow-500/10 text-yellow-600 border-yellow-500/30'
                                   }`}
                                 >
                                   {app.status.charAt(0).toUpperCase() + app.status.slice(1)}
@@ -457,18 +492,18 @@ export default function CMSPage() {
                                     rel="noopener noreferrer"
                                     whileHover={{ scale: 1.1 }}
                                     whileTap={{ scale: 0.9 }}
-                                    className="p-2 glass border border-white/10 rounded-lg text-white hover:border-white/50 transition-all"
+                                    className="p-2 glass border border-gray-200 rounded-lg text-gray-900 hover:border-blue-500/50 transition-all"
                                     title="Download Resume"
                                   >
                                     <Download className="w-4 h-4" />
                                   </motion.a>
                                 )}
                                 <motion.button
-                                  onClick={() => handleUpdateApplicationStatus(app)}
+                                  onClick={() => handleEditApplication(app)}
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
-                                  className="p-2 glass border border-white/10 rounded-lg text-white hover:border-white/50 transition-all"
-                                  title="Update Status"
+                                  className="p-2 glass border border-gray-200 rounded-lg text-gray-900 hover:border-blue-500/50 transition-all"
+                                  title="Edit Application"
                                 >
                                   <Edit className="w-4 h-4" />
                                 </motion.button>
@@ -483,48 +518,48 @@ export default function CMSPage() {
 
                 {activeTab === 'users' && (
                   <div>
-                    <h2 className="text-2xl font-orbitron font-bold text-white mb-6">
+                    <h2 className="text-2xl font-orbitron font-bold gradient-text mb-6">
                       User Management
                     </h2>
                     <div className="space-y-4">
                       {users.length === 0 ? (
                         <div className="text-center py-12">
-                          <UserIcon className="w-16 h-16 text-white/20 mx-auto mb-4" />
-                          <p className="text-gray-400 font-space-grotesk">No users found.</p>
+                          <UserIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                          <p className="text-gray-600 font-space-grotesk">No users found.</p>
                         </div>
                       ) : (
                         users.map((user: any) => (
                           <div
                             key={user.id}
-                            className="glass p-6 rounded-2xl border border-white/10"
+                            className="glass p-6 rounded-2xl border border-gray-200 hover:border-blue-500/50 transition-all"
                           >
                             <div className="flex justify-between items-start">
                               <div className="flex-1">
-                                <h3 className="text-xl font-orbitron font-bold text-white mb-2">
+                                <h3 className="text-xl font-orbitron font-bold text-gray-900 mb-2">
                                   {user.first_name && user.last_name
                                     ? `${user.first_name} ${user.last_name}`
                                     : user.username}
                                 </h3>
-                                <p className="text-glass-accent font-space-grotesk mb-2">
+                                <p className="text-blue-600 font-space-grotesk mb-2">
                                   @{user.username}
                                 </p>
                                 <div className="space-y-1">
-                                  <div className="flex items-center gap-2 text-gray-400 font-space-grotesk text-sm">
+                                  <div className="flex items-center gap-2 text-gray-600 font-space-grotesk text-sm">
                                     <Mail className="w-4 h-4" />
                                     {user.email}
                                   </div>
-                                  <div className="flex items-center gap-2 text-gray-400 font-space-grotesk text-sm">
+                                  <div className="flex items-center gap-2 text-gray-600 font-space-grotesk text-sm">
                                     <Calendar className="w-4 h-4" />
                                     Joined: {new Date(user.date_joined).toLocaleDateString()}
                                   </div>
                                   <div className="flex gap-2 mt-2">
                                     {user.is_staff && (
-                                      <span className="px-2 py-1 rounded text-xs font-space-grotesk font-semibold bg-blue-500/20 text-blue-400">
+                                      <span className="px-2 py-1 rounded text-xs font-space-grotesk font-semibold bg-blue-500/10 text-blue-600 border border-blue-500/30">
                                         Staff
                                       </span>
                                     )}
                                     {user.is_superuser && (
-                                      <span className="px-2 py-1 rounded text-xs font-space-grotesk font-semibold bg-purple-500/20 text-purple-400">
+                                      <span className="px-2 py-1 rounded text-xs font-space-grotesk font-semibold bg-purple-500/10 text-purple-600 border border-purple-500/30">
                                         Admin
                                       </span>
                                     )}
@@ -536,7 +571,7 @@ export default function CMSPage() {
                                   onClick={() => handleEditUser(user)}
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
-                                  className="p-2 glass border border-white/10 rounded-lg text-white hover:border-white/50 transition-all"
+                                  className="p-2 glass border border-gray-200 rounded-lg text-gray-900 hover:border-blue-500/50 transition-all"
                                   title="Edit User"
                                 >
                                   <Edit className="w-4 h-4" />
@@ -552,98 +587,112 @@ export default function CMSPage() {
 
                 {activeTab === 'company' && (
                   <div>
-                    <h2 className="text-2xl font-orbitron font-bold text-white mb-6">
+                    <h2 className="text-2xl font-orbitron font-bold gradient-text mb-6">
                       Company Information
                     </h2>
                     {company && (
                       <div className="space-y-4">
                         <div>
-                          <label className="block text-white font-space-grotesk font-semibold mb-2">
+                          <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                             Company Name
                           </label>
                           <input
                             id="company-name"
                             type="text"
                             defaultValue={company.name}
-                            className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white font-space-grotesk focus:outline-none focus:border-white/50"
+                            className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 font-space-grotesk focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20"
                           />
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                            <label className="block text-white font-space-grotesk font-semibold mb-2">
+                            <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                               Email
                             </label>
                             <input
                               id="company-email"
                               type="email"
                               defaultValue={company.email}
-                              className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white font-space-grotesk focus:outline-none focus:border-white/50"
+                              className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 font-space-grotesk focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20"
                             />
                           </div>
                           <div>
-                            <label className="block text-white font-space-grotesk font-semibold mb-2">
+                            <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                               Phone
                             </label>
                             <input
                               id="company-phone"
                               type="tel"
                               defaultValue={company.phone}
-                              className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white font-space-grotesk focus:outline-none focus:border-white/50"
+                              className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 font-space-grotesk focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20"
                             />
                           </div>
                         </div>
                         <div>
-                          <label className="block text-white font-space-grotesk font-semibold mb-2">
+                          <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                             Address
                           </label>
                           <textarea
                             id="company-address"
                             defaultValue={company.address}
                             rows={3}
-                            className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white font-space-grotesk resize-none focus:outline-none focus:border-white/50"
+                            className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 font-space-grotesk resize-none focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20"
                           />
                         </div>
                         <div>
-                          <label className="block text-white font-space-grotesk font-semibold mb-2">
+                          <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                             About
                           </label>
                           <textarea
                             id="company-about"
                             defaultValue={company.about}
                             rows={5}
-                            className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white font-space-grotesk resize-none focus:outline-none focus:border-white/50"
+                            className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 font-space-grotesk resize-none focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20"
                           />
                         </div>
                         <div>
-                          <label className="block text-white font-space-grotesk font-semibold mb-2">
+                          <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                             Mission
                           </label>
                           <textarea
                             id="company-mission"
                             defaultValue={company.mission || ''}
                             rows={3}
-                            className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white font-space-grotesk resize-none focus:outline-none focus:border-white/50"
+                            className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 font-space-grotesk resize-none focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20"
                           />
                         </div>
                         <div>
-                          <label className="block text-white font-space-grotesk font-semibold mb-2">
+                          <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                             Vision
                           </label>
                           <textarea
                             id="company-vision"
                             defaultValue={company.vision || ''}
                             rows={3}
-                            className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white font-space-grotesk resize-none focus:outline-none focus:border-white/50"
+                            className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 font-space-grotesk resize-none focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20"
                           />
                         </div>
                         <motion.button
                           onClick={handleCompanySave}
-                          whileHover={{ scale: 1.05 }}
+                          whileHover={{ scale: 1.05, y: -2 }}
                           whileTap={{ scale: 0.95 }}
-                          className="px-6 py-3 glass border border-white/20 rounded-xl text-white font-space-grotesk font-semibold flex items-center gap-2 hover:border-white/50 transition-all"
+                          className="relative px-6 py-3 rounded-xl font-space-grotesk font-semibold flex items-center gap-2 overflow-hidden group"
                         >
-                          <Save className="w-5 h-5" />
-                          Save Changes
+                          <motion.div
+                            className="absolute inset-0 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400"
+                            animate={{
+                              backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                            }}
+                            transition={{
+                              duration: 3,
+                              repeat: Infinity,
+                              ease: 'linear',
+                            }}
+                            style={{
+                              backgroundSize: '200% 200%',
+                            }}
+                          />
+                          <Save className="w-5 h-5 relative z-10 text-white" />
+                          <span className="relative z-10 text-white">Save Changes</span>
                         </motion.button>
                       </div>
                     )}
@@ -651,6 +700,7 @@ export default function CMSPage() {
                 )}
               </>
             )}
+          </div>
           </div>
         </div>
       </div>
@@ -683,6 +733,16 @@ export default function CMSPage() {
           setSelectedUser(null)
         }}
         user={selectedUser}
+        onSuccess={fetchData}
+      />
+
+      <ApplicationModal
+        isOpen={applicationModalOpen}
+        onClose={() => {
+          setApplicationModalOpen(false)
+          setSelectedApplication(null)
+        }}
+        application={selectedApplication}
         onSuccess={fetchData}
       />
     </>

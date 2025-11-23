@@ -117,7 +117,7 @@ export default function TeamModal({ isOpen, onClose, member, onSuccess }: TeamMo
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
         onClick={onClose}
       >
         <motion.div
@@ -125,23 +125,23 @@ export default function TeamModal({ isOpen, onClose, member, onSuccess }: TeamMo
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-2xl glass-strong rounded-3xl border border-white/20 p-8 max-h-[90vh] overflow-y-auto"
+          className="relative w-full max-w-2xl glass-strong rounded-3xl border border-gray-200 shadow-2xl p-8 max-h-[90vh] overflow-y-auto bg-white"
         >
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-10 h-10 rounded-lg glass border border-white/10 flex items-center justify-center text-white hover:border-white/50 transition-all"
+            className="absolute top-4 right-4 w-10 h-10 rounded-lg glass border border-gray-200 flex items-center justify-center text-gray-900 hover:border-gray-300 hover:bg-gray-50 transition-all"
           >
             <X className="w-5 h-5" />
           </button>
 
-          <h2 className="text-3xl font-orbitron font-bold text-white mb-6">
+          <h2 className="text-3xl font-orbitron font-bold gradient-text mb-6">
             {member ? 'Edit Team Member' : 'Add New Team Member'}
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   Name *
                 </label>
                 <input
@@ -149,12 +149,12 @@ export default function TeamModal({ isOpen, onClose, member, onSuccess }: TeamMo
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                  className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                   placeholder="John Doe"
                 />
               </div>
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   Position *
                 </label>
                 <input
@@ -162,47 +162,47 @@ export default function TeamModal({ isOpen, onClose, member, onSuccess }: TeamMo
                   required
                   value={formData.position}
                   onChange={(e) => setFormData({ ...formData, position: e.target.value })}
-                  className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                  className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                   placeholder="Software Engineer"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-white font-space-grotesk font-semibold mb-2">
+              <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                 Bio
               </label>
               <textarea
                 value={formData.bio}
                 onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                 rows={4}
-                className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all resize-none font-space-grotesk"
+                className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all resize-none font-space-grotesk"
                 placeholder="Team member bio..."
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   Email
                 </label>
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                  className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                   placeholder="john@example.com"
                 />
               </div>
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   Display Order
                 </label>
                 <input
                   type="number"
                   value={formData.order}
                   onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
-                  className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                  className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                   placeholder="0"
                 />
               </div>
@@ -210,54 +210,54 @@ export default function TeamModal({ isOpen, onClose, member, onSuccess }: TeamMo
 
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   LinkedIn
                 </label>
                 <input
                   type="url"
                   value={formData.linkedin}
                   onChange={(e) => setFormData({ ...formData, linkedin: e.target.value })}
-                  className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                  className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                   placeholder="https://linkedin.com/in/..."
                 />
               </div>
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   Twitter
                 </label>
                 <input
                   type="url"
                   value={formData.twitter}
                   onChange={(e) => setFormData({ ...formData, twitter: e.target.value })}
-                  className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                  className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                   placeholder="https://twitter.com/..."
                 />
               </div>
               <div>
-                <label className="block text-white font-space-grotesk font-semibold mb-2">
+                <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                   GitHub
                 </label>
                 <input
                   type="url"
                   value={formData.github}
                   onChange={(e) => setFormData({ ...formData, github: e.target.value })}
-                  className="w-full px-4 py-3 glass border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all font-space-grotesk"
+                  className="w-full px-4 py-3 glass border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-space-grotesk"
                   placeholder="https://github.com/..."
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-white font-space-grotesk font-semibold mb-2">
+              <label className="block text-gray-900 font-space-grotesk font-semibold mb-2">
                 Profile Image
               </label>
-              <label className="flex items-center gap-4 p-6 glass border border-white/10 rounded-xl cursor-pointer hover:border-white/50 transition-all">
-                <Upload className="w-6 h-6 text-white" />
+              <label className="flex items-center gap-4 p-6 glass border border-gray-200 rounded-xl cursor-pointer hover:border-blue-500/50 transition-all">
+                <Upload className="w-6 h-6 text-blue-600" />
                 <div className="flex-1">
                   {image ? (
-                    <span className="text-white font-space-grotesk">{image.name}</span>
+                    <span className="text-gray-900 font-space-grotesk">{image.name}</span>
                   ) : (
-                    <span className="text-gray-400 font-space-grotesk">
+                    <span className="text-gray-600 font-space-grotesk">
                       {member?.image_url ? 'Change image' : 'Upload image'}
                     </span>
                   )}
@@ -277,28 +277,48 @@ export default function TeamModal({ isOpen, onClose, member, onSuccess }: TeamMo
                 id="is_active"
                 checked={formData.is_active}
                 onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-                className="w-5 h-5 rounded"
+                className="w-5 h-5 rounded text-blue-600 focus:ring-blue-500"
               />
-              <label htmlFor="is_active" className="text-white font-space-grotesk">
+              <label htmlFor="is_active" className="text-gray-900 font-space-grotesk">
                 Active (visible on website)
               </label>
             </div>
 
             {error && (
-              <div className="p-4 rounded-xl bg-red-500/20 border border-red-500/50 text-red-400 font-space-grotesk">
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-600 font-space-grotesk whitespace-pre-line"
+              >
                 {error}
-              </div>
+              </motion.div>
             )}
 
             <motion.button
               type="submit"
               disabled={isSaving}
-              whileHover={{ scale: isSaving ? 1 : 1.02 }}
+              whileHover={{ scale: isSaving ? 1 : 1.02, y: -2 }}
               whileTap={{ scale: isSaving ? 1 : 0.98 }}
-              className="w-full px-6 py-4 rounded-xl glass border border-white/20 text-white font-space-grotesk font-bold text-lg flex items-center justify-center gap-2 hover:border-white/50 transition-all disabled:opacity-50"
+              className="w-full relative px-6 py-4 rounded-xl font-space-grotesk font-bold text-lg overflow-hidden group disabled:opacity-50"
             >
-              <Save className="w-5 h-5" />
-              {isSaving ? 'Saving...' : member ? 'Update Member' : 'Add Member'}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400"
+                animate={{
+                  backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: 'linear',
+                }}
+                style={{
+                  backgroundSize: '200% 200%',
+                }}
+              />
+              <span className="relative z-10 text-white flex items-center justify-center gap-2">
+                <Save className="w-5 h-5" />
+                {isSaving ? 'Saving...' : member ? 'Update Member' : 'Add Member'}
+              </span>
             </motion.button>
           </form>
         </motion.div>

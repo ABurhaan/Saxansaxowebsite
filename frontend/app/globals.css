@@ -248,6 +248,7 @@ body::before {
   50% {
     transform: translateY(-30px) rotate(5deg);
   }
+
 }
 
 /* Particle Container */
@@ -429,6 +430,7 @@ body::before {
   50% {
     box-shadow: 0 0 40px rgba(6, 182, 212, 0.8), 0 0 60px rgba(168, 85, 247, 0.4);
   }
+
 }
 
 /* Magnetic Hover Effect */
@@ -499,7 +501,6 @@ html {
   outline-offset: 2px;
   border-radius: 4px;
 }
-
 /* Loading Skeleton */
 .skeleton {
   background: linear-gradient(
@@ -520,3 +521,6 @@ html {
     background-position: -200% 0;
   }
 }
+
+
+
